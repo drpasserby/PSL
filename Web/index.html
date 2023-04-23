@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>叠甲License</title>
+    <style>
+        body{
+            background-color: #d4d4d4;
+        }
+        .container{
+            margin: 10% auto;
+            width: 80%;
+            height: 100%;
+        }
+        .footer{
+            width: 80%;
+            position: absolute;
+            bottom: 0;
+        }
+        .nav{
+            display: flex;
+            margin-top: 1.5em;
+            border: .2em;
+            list-style: none;
+            padding: .8em .5em;
+        }
+        .nav>li{
+            margin: 0 1em 0;
+        }
+        .nav a{
+            color: #000;
+            font-weight: 800;
+            text-decoration: none;
+            transition: .2s all;
+        }
+        .nav a:hover{
+            color: #6dffae;
+        }
+        .nav select{
+            border: #e369ff 2px solid;
+            border-radius: 4px;
+            width: 6em;
+            height: 2em;
+            font-weight: 600;
+        }
+        .nav select:hover{
+            border: #ffca69 2px solid;
+        }
+        .title{
+            font-size: 4em;
+            font-weight: 600;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .secTitle{
+            color:#626262;
+            font-size: 1em;
+            font-weight: 800;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .link{
+            font-size: 2em;
+            font-weight: 800;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .zh{
+            display: flex;
+        }
+        .link a{
+            text-decoration: none;
+            color: #e369ff;
+            margin: 0 0.5em 0;
+            transition: .3s all;
+        }
+        .link a:hover{
+            color: #6dffae;
+        }
+    </style>
+    <script src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="title">
+            叠甲License
+        </div>
+        <div class="secTitle">Protect Shield License</div>
+        <br>
+        <br>
+        <div class="link zh" v-if="lan=='中文'">
+            <a href="./PSLE.html">文章</a>
+            <a href="./PSLV.html">视频</a>
+            <a href="./PSLP.html">图片</a>
+            <a href="./PSLM.html">音乐</a>
+        </div>
+        <div class="link" v-if="lan=='English'">
+            <a href="./PSLE.html">Eaasy</a>
+            <a href="./PSLV.html">Video</a>
+            <a href="./PSLP.html">Picture</a>
+            <a href="./PSLM.html">Music</a>
+        </div>
+        <div class="link" v-if="lan=='日本文'">
+            <a href="./PSLE.html">テキスト</a>
+            <a href="./PSLV.html">ビデオ</a>
+            <a href="./PSLP.html">画像</a>
+            <a href="./PSLM.html">音楽</a>
+        </div>
+        <div class="footer">
+            <ul class="nav">
+                <li><a href="https://wulvxinchen.cn/">主页</a></li>
+                <li>
+                    <select name="" id="" v-model="lan">
+                        <option v-for="item in lanList" :value="item">{{item}}</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var app =new Vue({
+        el:'#app',
+        data:{
+            lan : "中文",
+            lanList:["中文","English","日本文"]
+        }
+    })
+</script>
+</html>
