@@ -93,30 +93,30 @@
         <div class="secTitle">Protect Shield License</div>
         <br>
         <br>
-        <div class="link zh" v-if="lan=='中文'">
-            <a href="./PSLE.html">文章</a>
-            <a href="./PSLV.html">视频</a>
-            <a href="./PSLP.html">图片</a>
-            <a href="./PSLM.html">音乐</a>
+        <div class="link zh" v-if="lan.value=='zh-CN'">
+            <a href="./zh-CN/PSLE.html">文章</a>
+            <a href="./zh-CN/PSLV.html">视频</a>
+            <a href="./zh-CN/PSLP.html">图片</a>
+            <a href="./zh-CN/PSLM.html">音频</a>
         </div>
-        <div class="link" v-if="lan=='English'">
-            <a href="./PSLE.html">Eaasy</a>
-            <a href="./PSLV.html">Video</a>
-            <a href="./PSLP.html">Picture</a>
-            <a href="./PSLM.html">Music</a>
+        <div class="link" v-if="lan.value=='en-US'">
+            <a href="./en-US/PSLE.html">Eaasy</a>
+            <a href="./en-US/PSLV.html">Video</a>
+            <a href="./en-US/PSLP.html">Picture</a>
+            <a href="./en-US/PSLM.html">Audio</a>
         </div>
-        <div class="link" v-if="lan=='日本文'">
-            <a href="./PSLE.html">テキスト</a>
-            <a href="./PSLV.html">ビデオ</a>
-            <a href="./PSLP.html">画像</a>
-            <a href="./PSLM.html">音楽</a>
+        <div class="link" v-if="lan.value=='ja-JP'">
+            <a href="./ja-JP/PSLE.html">テキスト</a>
+            <a href="./ja-JP/PSLV.html">ビデオ</a>
+            <a href="./ja-JP/PSLP.html">画像</a>
+            <a href="./ja-JP/PSLM.html">音楽</a>
         </div>
         <div class="footer">
             <ul class="nav">
                 <li><a href="https://wulvxinchen.cn/">主页</a></li>
                 <li>
-                    <select name="" id="" v-model="lan">
-                        <option v-for="item in lanList" :value="item">{{item}}</option>
+                    <select v-model="lan.value">
+                        <option v-for="item in lanList" :value="item.value">{{item.lan}}</option>
                     </select>
                 </li>
             </ul>
@@ -127,8 +127,19 @@
     var app =new Vue({
         el:'#app',
         data:{
-            lan : "中文",
-            lanList:["中文","English","日本文"]
+            lan:{lan:'中文',value:'zh-CN'},
+            lanList:[
+                {
+                    lan:'中文',
+                    value:'zh-CN'
+                },{
+                    lan:'English',
+                    value:'en-US'
+                },{
+                    lan:'日本文',
+                    value:'ja-JP'
+                }
+            ]
         }
     })
 </script>
