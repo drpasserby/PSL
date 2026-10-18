@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Protect Shield License · 叠甲License</title>
+  <meta name="description" content="Protect Shield License (PSL): disclaimer clauses for essays, videos, pictures and audio, ready to paste into your work.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Protect Shield License">
+  <meta property="og:title" content="Protect Shield License · 叠甲License">
+  <meta property="og:description" content="Protect Shield License (PSL): disclaimer clauses for essays, videos, pictures and audio, ready to paste into your work.">
+  <link rel="alternate" hreflang="zh-CN" href="../zh-CN/index.html">
+  <link rel="alternate" hreflang="en-US" href="../en-US/index.html">
+  <link rel="alternate" hreflang="ja-JP" href="../ja-JP/index.html">
+  <link rel="alternate" hreflang="x-default" href="../zh-CN/index.html">
+  <link rel="stylesheet" href="../css/wabisabi.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to text</a>
+  <header class="masthead">
+    <p class="brand">Protect Shield License<span class="brand-sub">叠甲License</span></p>
+    <span class="masthead-spacer"></span>
+    <nav class="switch" aria-label="Language">
+      <span class="switch-label">Language</span>
+      <a href="../zh-CN/index.html" hreflang="zh-CN" lang="zh-CN">中文</a>
+      <a href="../en-US/index.html" hreflang="en-US" lang="en" aria-current="true">English</a>
+      <a href="../ja-JP/index.html" hreflang="ja-JP" lang="ja">日本語</a>
+    </nav>
+  </header>
+  <main id="main" class="shell">
+    <section class="lede">
+      <h1 class="lede-title">Protect Shield</h1>
+      <p class="lede-sub">License · a disclaimer you put on before, not after</p>
+      <p class="lede-quote">Not a copyright notice — a disclaimer. Say it first, so you never have to explain later.</p>
+    </section>
+    <section class="catalog">
+      <h2 class="catalog-head">Clauses</h2>
+      <a class="entry" href="../en-US/essay.html">
+        <span class="entry-no">01</span>
+        <span class="entry-name">Essay<span class="entry-latin">1.1</span></span>
+        <span class="entry-mark">8 sections <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="../en-US/video.html">
+        <span class="entry-no">02</span>
+        <span class="entry-name">Video<span class="entry-latin">1.1</span></span>
+        <span class="entry-mark">8 sections <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="../en-US/picture.html">
+        <span class="entry-no">03</span>
+        <span class="entry-name">Picture<span class="entry-latin">1.1</span></span>
+        <span class="entry-mark">8 sections <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="../en-US/audio.html">
+        <span class="entry-no">04</span>
+        <span class="entry-name">Audio<span class="entry-latin">1.1</span></span>
+        <span class="entry-mark">8 sections <span class="arrow">→</span></span>
+      </a>
+    </section>
+  </main>
+  <footer class="pagefoot">
+    <a href="https://wulvxinchen.cn/" rel="noopener">wulvxinchen.cn</a>
+    <a href="../index.html">Contents</a>
+    <span class="foot-note">Clause text is authoritative as published on this site; keep the source when quoting.</span>
+  </footer>
+  <script>
+  (function () {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, "js");
+    var buttons = document.querySelectorAll("[data-copy]");
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.addEventListener("click", function () {
+        var target = button.getAttribute("data-copy");
+        var original = button.textContent;
+        var done = button.getAttribute("data-copy-done") || original;
+        fetch(target)
+          .then(function (response) {
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response.text();
+          })
+          .then(function (text) { return navigator.clipboard.writeText(text); })
+          .then(function () {
+            button.textContent = done;
+            button.disabled = true;
+            setTimeout(function () {
+              button.textContent = original;
+              button.disabled = false;
+            }, 2000);
+          })
+          .catch(function () { window.location.href = target; });
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

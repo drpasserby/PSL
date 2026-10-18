@@ -1,2 +1,12 @@
+# 构建产物 site/ 需要提交：GitHub Pages 直接托管该目录。
+node_modules/
+npm-debug.log*
+.DS_Store
+Thumbs.db
+*.local
+site/check-report.txt
 
-Web/js/vue.min.js
+# 本地预览截图与临时文件，不进仓库
+.preview/
+/site
+.gitignore

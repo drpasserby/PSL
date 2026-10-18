@@ -1,0 +1,715 @@
+/* ============================================================
+   叠甲License · Wabi-sabi 样式表
+   原则对应：
+   1 纸感底色   —— 带细颗粒的米白，纹理只做辅助，绝不落在正文层上
+   2 自然色层级 —— 色板取自宣纸 / 松墨 / 陶土 / 青苔 / 朱砂，正文对比度 ≥ 7:1
+   3 衬线排版   —— 标题与正文用衬线；编号与导航用无衬线，中英文分别校字距
+   4 间 · 留白  —— 节奏由内容决定：正文栏窄而长，段间距随条款数递增
+   5 不对称     —— 内容栏整体左偏，右侧余白放书脊与落款，重心由编号列撑住
+   6 朱红点缀   —— 仅用于印章、当前语言、悬停强调
+   ============================================================ */
+
+@layer tokens, reset, base, layout, components, states, print;
+
+/* ---------- 1. 色板与度量 ---------- */
+@layer tokens {
+  :root {
+    /* 纸 */
+    --paper: #f0ebe1;
+    --paper-raised: #f5f1e8;
+    --paper-deep: #e3dbcc;
+    --fiber: #cfc5b2;
+
+    /* 墨 */
+    --ink: #332f28;
+    --ink-soft: #655e51;
+    --ink-faint: #8d8674;
+
+    /* 材料 */
+    --clay: #a3705a;
+    --moss: #6e7760;
+    --vermilion: #a63a23;
+    --vermilion-soft: #c4715a;
+
+    /* 语义 */
+    --body: var(--ink);
+    --meta: var(--ink-soft);
+    --rule: color-mix(in srgb, var(--fiber) 78%, transparent);
+    --accent: var(--vermilion);
+
+    /* 字体：中文衬线优先，小字号界面词走无衬线保证清晰度 */
+    --serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
+      "Noto Serif SC", "Source Serif 4", "Iowan Old Style", Georgia,
+      "Times New Roman", serif;
+    --sans: "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei",
+      "Hiragino Sans GB", "Noto Sans CJK SC", ui-sans-serif, system-ui,
+      -apple-system, "Segoe UI", sans-serif;
+
+    /* 度量 */
+    --measure: 34rem;
+    --gutter: clamp(1.25rem, 5vw, 3rem);
+    --lead: clamp(4.5rem, 14vw, 11rem);
+    --step: clamp(2.5rem, 6vw, 5.5rem);
+    --radius: 2px;
+  }
+
+  /* 夜里的纸：同一色板压暗，不引入新颜色 */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1f1d19;
+      --paper-raised: #262420;
+      --paper-deep: #191713;
+      --fiber: #46413a;
+
+      --ink: #e6dfd0;
+      --ink-soft: #b3ab9a;
+      --ink-faint: #8b8371;
+
+      --clay: #bd8a6f;
+      --moss: #93a083;
+      --vermilion: #d0674a;
+      --vermilion-soft: #a9523a;
+    }
+  }
+}
+
+/* ---------- 2. 重置 ---------- */
+@layer reset {
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  body, h1, h2, h3, p, ul, ol, li, figure, blockquote, pre {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul, ol { list-style: none; }
+
+  a { color: inherit; text-decoration: none; }
+
+  img, svg { display: block; max-width: 100%; }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+}
+
+/* ---------- 3. 基底 ---------- */
+@layer base {
+  body {
+    background-color: var(--paper);
+    color: var(--body);
+    font-family: var(--serif);
+    font-size: clamp(1rem, 0.95rem + 0.35vw, 1.1875rem);
+    line-height: 1.95;
+    letter-spacing: 0.02em;
+    min-height: 100vh;
+    overflow-wrap: break-word;
+  }
+
+  /* 纸的颗粒：固定层、极低强度，位于内容之下 */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("../assets/grain.svg");
+    background-size: 240px 240px;
+    mix-blend-mode: multiply;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body::before { mix-blend-mode: screen; opacity: 0.045; }
+  }
+
+  /* 纸边：上下两道极淡的纤维晕，不做圆角卡片 */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 60% at 12% -8%, color-mix(in srgb, var(--paper-deep) 70%, transparent), transparent 60%),
+      radial-gradient(90% 50% at 96% 108%, color-mix(in srgb, var(--fiber) 30%, transparent), transparent 62%);
+  }
+
+  main, header, footer, nav, aside, section { position: relative; z-index: 1; }
+
+  /* 中英文分别校字距 */
+  :lang(en) { letter-spacing: 0.004em; line-height: 1.8; }
+  :lang(ja) { letter-spacing: 0.03em; line-height: 1.9; }
+
+  ::selection {
+    background: color-mix(in srgb, var(--vermilion) 22%, transparent);
+  }
+}
+
+/* ---------- 4. 骨架：不对称来自左偏的内容栏 ---------- */
+@layer layout {
+  .shell {
+    width: min(100% - var(--gutter) * 2, 78rem);
+    margin-inline: auto;
+    padding-block: clamp(2rem, 6vw, 4.5rem);
+  }
+
+  /* 条款页：编号列 + 正文 + 右侧书脊留白 */
+  .sheet {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(7rem, 18vw, 15rem);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: start;
+    margin-inline-start: var(--lead);
+    margin-inline-end: clamp(0rem, 4vw, 3rem);
+    max-width: calc(var(--measure) + var(--lead) + 20rem);
+  }
+
+  .spine {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: clamp(2rem, 10vh, 6rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    padding-block-start: 1rem;
+  }
+
+  .masthead,
+  .pagefoot {
+    width: min(100% - var(--gutter) * 2, 78rem);
+    margin-inline: auto;
+  }
+}
+
+/* ---------- 5. 组件 ---------- */
+@layer components {
+  /* —— 报头 —— */
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1rem clamp(1rem, 4vw, 3rem);
+    padding-block: 1.25rem clamp(2rem, 6vw, 4rem);
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .brand {
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.375rem);
+    letter-spacing: 0.22em;
+    color: var(--ink);
+  }
+
+  .brand .brand-sub {
+    display: block;
+    margin-block-start: 0.35rem;
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .masthead-spacer { flex: 1 1 2rem; }
+
+  /* —— 语言：真实链接，无 JS 也可用 —— */
+  .switch { display: flex; align-items: baseline; gap: 1.25rem; }
+
+  .switch-label {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+  }
+
+  .switch a {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    color: var(--meta);
+    padding-block-end: 0.15rem;
+    border-block-end: 1px solid transparent;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .switch a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .switch a[aria-current="true"] {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  /* —— 首页：目录感的类型清单 —— */
+  .lede {
+    margin-block: clamp(3rem, 10vw, 7rem) clamp(2.5rem, 7vw, 5rem);
+    margin-inline-start: clamp(0rem, 8vw, 6rem);
+    max-width: 30rem;
+  }
+
+  .lede-title {
+    font-size: clamp(2.5rem, 1.6rem + 5vw, 5rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.06em;
+  }
+
+  .lede-sub {
+    margin-block-start: 1.25rem;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    letter-spacing: 0.14em;
+    color: var(--meta);
+  }
+
+  /* 一句留白：不居中、不铺满，故意偏向左侧 */
+  .lede-quote {
+    margin-block-start: clamp(2rem, 6vw, 3.5rem);
+    padding-inline-start: 1.5rem;
+    border-inline-start: 1px solid color-mix(in srgb, var(--clay) 60%, transparent);
+    font-size: 1.0625rem;
+    color: var(--ink-soft);
+  }
+
+  .catalog { margin-block-end: clamp(3rem, 8vw, 6rem); }
+
+  .catalog-head {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-block-end: 0.75rem;
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: clamp(0.75rem, 3vw, 2rem);
+    padding-block: clamp(1.1rem, 2.5vw, 1.6rem);
+    border-block-end: 1px solid var(--rule);
+    transition: background-color 0.3s ease;
+  }
+
+  .entry:hover { background-color: color-mix(in srgb, var(--paper-raised) 70%, transparent); }
+
+  /* 正文未定稿的类型：整条不可点，标题淡化，只在右侧留一个「待补充」标记 */
+  .entry--todo {
+    cursor: default;
+    color: var(--ink-faint);
+  }
+
+  .entry--todo:hover { background-color: transparent; }
+
+  .entry--todo .entry-name { color: var(--ink-faint); }
+
+  .entry--todo:hover .entry-no { color: var(--ink-faint); }
+
+  .entry-no {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .entry:hover .entry-no { color: var(--accent); }
+
+  .entry-name {
+    font-size: clamp(1.25rem, 1rem + 1.4vw, 1.9rem);
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+  }
+
+  .entry-latin {
+    display: block;
+    margin-block-start: 0.25rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--meta);
+  }
+
+  .entry-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .entry-mark .arrow {
+    font-size: 1rem;
+    color: var(--clay);
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .entry:hover .arrow { transform: translateX(0.35rem); }
+
+  .is-todo {
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    color: var(--vermilion);
+    border: 1px solid color-mix(in srgb, var(--vermilion) 45%, transparent);
+    padding: 0.1rem 0.45rem;
+  }
+
+  /* 译本的完成度（校正中 / 英語原文），比「待补充」克制一档 */
+  .is-note {
+    margin-inline-start: 0.6rem;
+    padding: 0.1rem 0.45rem;
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    color: var(--meta);
+    border: 1px solid var(--rule);
+  }
+
+  .entry--todo .is-note { display: none; }
+
+  /* —— 条款正文 —— */
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-block-end: 1.25rem;
+  }
+
+  .license-title {
+    font-size: clamp(2rem, 1.4rem + 3.2vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+  }
+
+  .license-id {
+    margin-block-start: 0.75rem;
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    color: var(--meta);
+  }
+
+  /* 版本线：断断续续的手作横线，不是规整的 hr */
+  .rule-soft {
+    margin-block: clamp(2.5rem, 6vw, 4rem) clamp(2rem, 5vw, 3rem);
+    height: 1px;
+    background: repeating-linear-gradient(
+      to right,
+      color-mix(in srgb, var(--fiber) 90%, transparent) 0 9px,
+      transparent 9px 16px
+    );
+    border: 0;
+  }
+
+  .clause { margin-block-end: var(--step); }
+
+  .clause:last-of-type { margin-block-end: clamp(3rem, 8vw, 5rem); }
+
+  .clause-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-block-end: 1.1rem;
+  }
+
+  .clause-no {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--clay);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+
+  .clause-title {
+    font-size: clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+  }
+
+  .clause-body { max-width: var(--measure); }
+
+  .clause-body > * + * { margin-block-start: 1.1em; }
+
+  /* 首字落位：略大的行首字，做手工排版的轻微不匀 */
+  .clause-body > p:first-child { text-indent: 0; }
+
+  /* —— 落款与引用 —— */
+  .colophon {
+    margin-block: clamp(3rem, 8vw, 5rem) 0;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: color-mix(in srgb, var(--paper-raised) 82%, transparent);
+    border: 1px solid var(--rule);
+    border-inline-start: 2px solid color-mix(in srgb, var(--clay) 70%, transparent);
+    max-width: calc(var(--measure) + 4rem);
+  }
+
+  .colophon-title {
+    font-size: 1.0625rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    margin-block-end: 0.85rem;
+  }
+
+  .colophon-note {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+    color: var(--meta);
+    margin-block-end: 1rem;
+  }
+
+  .cite {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    background: var(--paper);
+    border-block: 1px dashed var(--rule);
+    padding-block: 0.85rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-block-start: 1.25rem; }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
+    padding: 0.5rem 1.1rem;
+    transition: color 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  }
+
+  .btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--vermilion) 7%, transparent);
+  }
+
+  .plain-link {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--meta);
+    border-block-end: 1px solid var(--rule);
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .plain-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* —— 书脊：竖排类型名 + 印章 —— */
+  .spine-text {
+    writing-mode: vertical-rl;
+    font-size: 0.9375rem;
+    letter-spacing: 0.42em;
+    color: var(--meta);
+  }
+
+  .seal {
+    width: 3.4rem;
+    height: 3.4rem;
+    display: grid;
+    place-items: center;
+    color: var(--vermilion);
+    border: 1.5px solid color-mix(in srgb, var(--vermilion) 80%, transparent);
+    border-radius: var(--radius);
+    font-size: 0.9375rem;
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    text-align: center;
+    transform: rotate(-1.4deg);
+    opacity: 0.9;
+  }
+
+  .seal::after {
+    /* 印泥的边角缺口：一处不完美 */
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    margin-block-start: -2.6rem;
+    margin-inline-start: 2.9rem;
+    background: var(--paper);
+    transform: rotate(12deg);
+  }
+
+  /* —— 返回 —— */
+  .back {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    color: var(--meta);
+    transition: color 0.25s ease;
+  }
+
+  .back:hover { color: var(--accent); }
+
+  /* —— 页脚 —— */
+  .pagefoot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem clamp(1rem, 4vw, 2.5rem);
+    margin-block-start: clamp(3rem, 8vw, 6rem);
+    padding-block: 1.5rem 2.5rem;
+    border-block-start: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--meta);
+  }
+
+  .pagefoot a { transition: color 0.25s ease; }
+  .pagefoot a:hover { color: var(--accent); }
+
+  .foot-note {
+    flex: 1 1 14rem;
+    font-size: 0.6875rem;
+    line-height: 1.8;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+
+  /* —— 纯文本页 —— */
+  .dump {
+    margin-block-start: clamp(2rem, 5vw, 3.5rem);
+    max-width: var(--measure);
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    white-space: pre-wrap;
+    color: var(--ink);
+  }
+
+  /* —— 旧地址跳转壳 —— */
+  .moved {
+    display: grid;
+    place-content: center;
+    gap: 1rem;
+    min-height: 60vh;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--meta);
+  }
+
+  .moved a { color: var(--accent); border-block-end: 1px solid var(--accent); }
+
+  /* —— 渐进增强：脚本在时才有复制按钮，无脚本时"纯文本"链接兜底 —— */
+  .js-only { display: none; }
+  .js .js-only { display: inline-flex; }
+  .btn:disabled { opacity: 0.55; cursor: default; }
+
+  /* —— 翻译未完成的诚实提示（不伪装成正式条款） —— */
+  .draft-banner {
+    margin-block: 0 clamp(1.75rem, 4vw, 2.5rem);
+    padding: 0.65rem 0 0.65rem 1rem;
+    border-inline-start: 2px solid color-mix(in srgb, var(--clay) 75%, transparent);
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    letter-spacing: 0.03em;
+    color: var(--meta);
+  }
+}
+
+/* ---------- 6. 状态与响应 ---------- */
+@layer states {
+  .skip {
+    position: absolute;
+    inset-inline-start: var(--gutter);
+    inset-block-start: -4rem;
+    z-index: 5;
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1rem;
+    background: var(--paper-raised);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    transition: inset-block-start 0.2s ease;
+  }
+
+  .skip:focus { inset-block-start: 0.75rem; }
+
+  :focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 46rem) {
+    .sheet {
+      grid-template-columns: minmax(0, 1fr);
+      margin-inline-start: 0;
+      gap: 2rem;
+    }
+
+    .spine {
+      grid-row: 1;
+      position: static;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      order: -1;
+      padding-block-end: 1rem;
+      border-block-end: 1px solid var(--rule);
+    }
+
+    .spine-text { writing-mode: horizontal-tb; letter-spacing: 0.2em; }
+
+    .entry { grid-template-columns: 2.75rem minmax(0, 1fr); }
+
+    .entry-mark { grid-column: 2; margin-block-start: 0.5rem; }
+
+    :root { --step: clamp(2.5rem, 9vw, 4rem); --measure: 100%; }
+  }
+
+  /* 没有动效偏好时，一律静止 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}
+
+/* ---------- 7. 打印：条款可能被张贴或存档 ---------- */
+@layer print {
+  @media print {
+    body { background: #fff; color: #111; font-size: 11pt; line-height: 1.7; }
+    body::before, body::after { display: none; }
+    .masthead, .pagefoot, .actions, .spine, .skip, .switch { display: none !important; }
+    .sheet { display: block; margin: 0; max-width: none; }
+    .clause { margin-block-end: 1.75rem; break-inside: avoid; }
+    .colophon { background: none; border: 1px solid #999; }
+    a { color: #111; }
+  }
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Protect Shield License · 叠甲License</title>
+  <meta name="description" content="Protect Shield License (PSL)：文章・動画・画像・音声のための免責条項。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Protect Shield License">
+  <meta property="og:title" content="Protect Shield License · 叠甲License">
+  <meta property="og:description" content="Protect Shield License (PSL)：文章・動画・画像・音声のための免責条項。">
+  <link rel="alternate" hreflang="zh-CN" href="../zh-CN/index.html">
+  <link rel="alternate" hreflang="en-US" href="../en-US/index.html">
+  <link rel="alternate" hreflang="ja-JP" href="../ja-JP/index.html">
+  <link rel="alternate" hreflang="x-default" href="../zh-CN/index.html">
+  <link rel="stylesheet" href="../css/wabisabi.css">
+</head>
+<body>
+  <a class="skip" href="#main">本文へ</a>
+  <header class="masthead">
+    <p class="brand">Protect Shield License<span class="brand-sub">叠甲License</span></p>
+    <span class="masthead-spacer"></span>
+    <nav class="switch" aria-label="言語">
+      <span class="switch-label">言語</span>
+      <a href="../zh-CN/index.html" hreflang="zh-CN" lang="zh-CN">中文</a>
+      <a href="../en-US/index.html" hreflang="en-US" lang="en">English</a>
+      <a href="../ja-JP/index.html" hreflang="ja-JP" lang="ja" aria-current="true">日本語</a>
+    </nav>
+  </header>
+  <main id="main" class="shell">
+    <section class="lede">
+      <h1 class="lede-title">Protect Shield</h1>
+      <p class="lede-sub">License · 作品の頭に置く免責条項</p>
+      <p class="lede-quote">著作権表示ではなく免責事項です。先に書いておけば、後から説明する必要はありません。</p>
+    </section>
+    <section class="catalog">
+      <h2 class="catalog-head">条項一覧</h2>
+      <a class="entry" href="../ja-JP/essay.html">
+        <span class="entry-no">01</span>
+        <span class="entry-name">テキスト<span class="entry-latin">Essay · 1.1</span></span>
+        <span class="entry-mark">8 節<span class="is-note">校正中</span> <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="../ja-JP/video.html">
+        <span class="entry-no">02</span>
+        <span class="entry-name">ビデオ<span class="entry-latin">Video · 1.1</span></span>
+        <span class="entry-mark">8 節<span class="is-note">校正中</span> <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="../ja-JP/picture.html">
+        <span class="entry-no">03</span>
+        <span class="entry-name">画像<span class="entry-latin">Picture · 1.1</span></span>
+        <span class="entry-mark">8 節<span class="is-note">校正中</span> <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="../ja-JP/audio.html">
+        <span class="entry-no">04</span>
+        <span class="entry-name">オーディオ<span class="entry-latin">Audio · 1.1</span></span>
+        <span class="entry-mark">8 節<span class="is-note">校正中</span> <span class="arrow">→</span></span>
+      </a>
+    </section>
+  </main>
+  <footer class="pagefoot">
+    <a href="https://wulvxinchen.cn/" rel="noopener">wulvxinchen.cn</a>
+    <a href="../index.html">目次</a>
+    <span class="foot-note">条項本文は本サイトの公開版を正とします。引用の際は出典を明記してください。</span>
+  </footer>
+  <script>
+  (function () {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, "js");
+    var buttons = document.querySelectorAll("[data-copy]");
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.addEventListener("click", function () {
+        var target = button.getAttribute("data-copy");
+        var original = button.textContent;
+        var done = button.getAttribute("data-copy-done") || original;
+        fetch(target)
+          .then(function (response) {
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response.text();
+          })
+          .then(function (text) { return navigator.clipboard.writeText(text); })
+          .then(function () {
+            button.textContent = done;
+            button.disabled = true;
+            setTimeout(function () {
+              button.textContent = original;
+              button.disabled = false;
+            }, 2000);
+          })
+          .catch(function () { window.location.href = target; });
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

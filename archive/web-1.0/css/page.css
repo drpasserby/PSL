@@ -1,0 +1,49 @@
+body{
+    background-color: #d4d4d4;
+}
+.container{
+    margin: 1% auto;
+    width: 80%;
+    height: 100%;
+}
+.title{
+    font-size: 3.5em;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.secTitle{
+    color:#626262;
+    font-size: 1em;
+    font-weight: 800;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.thirdTitle{
+    color:#626262;
+    font-size: 1em;
+    font-weight: 800;
+}
+.contect{
+    font-size: 1em;
+    font-weight: 800;
+}
+.contect p{
+    margin: 0;
+}
+.back{
+    position: absolute;
+    top:1%;
+    left:10%;
+}
+.back a{
+    color: #000;
+    font-weight: 800;
+    text-decoration: none;
+    transition: .2s all;
+}
+.back a:hover{
+    color: #6dffae;
+}

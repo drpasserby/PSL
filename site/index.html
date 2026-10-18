@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>叠甲License · Protect Shield License</title>
+  <meta name="description" content="叠甲License：文章、视频、图片、音频的免责声明条款，可复制到作品中使用。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="叠甲License">
+  <meta property="og:title" content="叠甲License · Protect Shield License">
+  <meta property="og:description" content="叠甲License：文章、视频、图片、音频的免责声明条款，可复制到作品中使用。">
+  <link rel="alternate" hreflang="zh-CN" href="zh-CN/index.html">
+  <link rel="alternate" hreflang="en-US" href="en-US/index.html">
+  <link rel="alternate" hreflang="ja-JP" href="ja-JP/index.html">
+  <link rel="alternate" hreflang="x-default" href="zh-CN/index.html">
+  <link rel="stylesheet" href="css/wabisabi.css">
+</head>
+<body>
+  <a class="skip" href="#main">跳到正文</a>
+  <header class="masthead">
+    <p class="brand">叠甲License<span class="brand-sub">Protect Shield License</span></p>
+    <span class="masthead-spacer"></span>
+    <nav class="switch" aria-label="语言">
+      <span class="switch-label">语言</span>
+      <a href="zh-CN/index.html" hreflang="zh-CN" lang="zh-CN" aria-current="true">中文</a>
+      <a href="en-US/index.html" hreflang="en-US" lang="en">English</a>
+      <a href="ja-JP/index.html" hreflang="ja-JP" lang="ja">日本語</a>
+    </nav>
+  </header>
+  <main id="main" class="shell">
+    <section class="lede">
+      <h1 class="lede-title">叠甲</h1>
+      <p class="lede-sub">Protect Shield License · 给作品叠一层话在前头</p>
+      <p class="lede-quote">这不是版权声明，是一份免责声明：把话说在前面，省得事后解释。</p>
+    </section>
+    <section class="catalog">
+      <h2 class="catalog-head">条款目录</h2>
+      <a class="entry" href="zh-CN/essay.html">
+        <span class="entry-no">01</span>
+        <span class="entry-name">文章<span class="entry-latin">Essay · 1.1</span></span>
+        <span class="entry-mark">8 节 <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="zh-CN/video.html">
+        <span class="entry-no">02</span>
+        <span class="entry-name">视频<span class="entry-latin">Video · 1.1</span></span>
+        <span class="entry-mark">8 节 <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="zh-CN/picture.html">
+        <span class="entry-no">03</span>
+        <span class="entry-name">图片<span class="entry-latin">Picture · 1.1</span></span>
+        <span class="entry-mark">8 节 <span class="arrow">→</span></span>
+      </a>
+      <a class="entry" href="zh-CN/audio.html">
+        <span class="entry-no">04</span>
+        <span class="entry-name">音频<span class="entry-latin">Audio · 1.1</span></span>
+        <span class="entry-mark">8 节 <span class="arrow">→</span></span>
+      </a>
+    </section>
+  </main>
+  <footer class="pagefoot">
+    <a href="https://wulvxinchen.cn/" rel="noopener">wulvxinchen.cn</a>
+    <a href="index.html">目录</a>
+    <span class="foot-note">条款内容以本站发布版本为准；转述或引用时请保留出处。</span>
+  </footer>
+  <script>
+  (function () {
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/, "js");
+    var buttons = document.querySelectorAll("[data-copy]");
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.addEventListener("click", function () {
+        var target = button.getAttribute("data-copy");
+        var original = button.textContent;
+        var done = button.getAttribute("data-copy-done") || original;
+        fetch(target)
+          .then(function (response) {
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response.text();
+          })
+          .then(function (text) { return navigator.clipboard.writeText(text); })
+          .then(function () {
+            button.textContent = done;
+            button.disabled = true;
+            setTimeout(function () {
+              button.textContent = original;
+              button.disabled = false;
+            }, 2000);
+          })
+          .catch(function () { window.location.href = target; });
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

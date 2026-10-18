@@ -1,0 +1,16 @@
+{
+  "name": "protect-shield-license",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "叠甲License / Protect Shield License — 静态站点与条款正文",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "check": "node tools/check.mjs",
+    "verify": "node tools/build.mjs && node tools/check.mjs",
+    "serve": "node tools/serve.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
