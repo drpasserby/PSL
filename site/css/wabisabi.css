@@ -37,9 +37,10 @@
     --rule: color-mix(in srgb, var(--fiber) 78%, transparent);
     --accent: var(--vermilion);
 
-    /* 字体：中文衬线优先，小字号界面词走无衬线保证清晰度 */
+    /* 字体：中文衬线优先；SimSun 兜住 Windows，避免标题落回默认无衬线 */
     --serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC",
-      "Noto Serif SC", "Source Serif 4", "Iowan Old Style", Georgia,
+      "Noto Serif SC", "Source Han Serif CN", "Songti SC Regular", SimSun,
+      "NSimSun", "Source Serif 4", "Iowan Old Style", Georgia,
       "Times New Roman", serif;
     --sans: "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei",
       "Hiragino Sans GB", "Noto Sans CJK SC", ui-sans-serif, system-ui,
@@ -146,9 +147,20 @@
 
   main, header, footer, nav, aside, section { position: relative; z-index: 1; }
 
-  /* 中英文分别校字距 */
-  :lang(en) { letter-spacing: 0.004em; line-height: 1.8; }
-  :lang(ja) { letter-spacing: 0.03em; line-height: 1.9; }
+  /* 中英文分别校字距，也分别挑字形：西文走拉丁衬线，日文走日文库 */
+  :lang(en) {
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, Cambria,
+      "Times New Roman", serif;
+    letter-spacing: 0.004em;
+    line-height: 1.8;
+  }
+
+  :lang(ja) {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif CJK JP",
+      "Source Han Serif JP", "MS Mincho", "Songti SC", serif;
+    letter-spacing: 0.03em;
+    line-height: 1.9;
+  }
 
   ::selection {
     background: color-mix(in srgb, var(--vermilion) 22%, transparent);
@@ -671,13 +683,15 @@
     }
 
     .spine {
-      grid-row: 1;
+      /* 单列模板下必须显式归位：残留的 grid-column:2 会撑出一个隐式列并把书脊挤出屏幕 */
+      grid-column: 1;
+      grid-row: auto;
       position: static;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       order: -1;
-      padding-block-end: 1rem;
+      padding-block: 0 1rem;
       border-block-end: 1px solid var(--rule);
     }
 
